@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交通事故赔偿计算工具</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>交通事故赔偿计算工具</h1>
+            <p>快速估算交通事故赔偿金额，提高事故处理效率</p>
+        </header>
+
+        <div id="calculator">
+            <!-- 步骤导航 -->
+            <div class="step-nav">
+                <div class="step active" data-step="1">基础信息</div>
+                <div class="step" data-step="2">受害人信息</div>
+                <div class="step" data-step="3">伤害情况</div>
+                <div class="step" data-step="4">交通住宿</div>
+                <div class="step" data-step="5">财产损失</div>
+                <div class="step" data-step="6">其他费用</div>
+                <div class="step" data-step="7">计算结果</div>
+            </div>
+
+            <!-- 表单区域 -->
+            <form id="compensation-form">
+                <!-- 步骤1: 基础信息 -->
+                <div class="form-step" id="step-1">
+                    <h2>基础信息</h2>
+                    <div class="form-group">
+                        <label for="responsibility">事故责任划分</label>
+                        <select id="responsibility" name="responsibility" required>
+                            <option value="">请选择责任类型</option>
+                            <option value="full">全责 (100%)</option>
+                            <option value="main">主责 (70%-80%)</option>
+                            <option value="minor">次责 (30%-40%)</option>
+                            <option value="none">无责 (0%)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">事故发生地</label>
+                        <select id="location" name="location" required>
+                            <option value="">请选择省份</option>
+                            <!-- 省份列表将通过JavaScript动态生成 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">城市</label>
+                        <select id="city" name="city" required>
+                            <option value="">请先选择省份</option>
+                            <!-- 城市列表将通过JavaScript动态生成 -->
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn next-btn">下一步</button>
+                    </div>
+                </div>
+
+                <!-- 步骤2: 受害人信息 -->
+                <div class="form-step" id="step-2" style="display: none;">
+                    <h2>受害人信息</h2>
+                    <div class="form-group">
+                        <label for="age">年龄</label>
+                        <input type="number" id="age" name="age" min="0" max="120" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="household">户籍类别</label>
+                        <select id="household" name="household" required>
+                            <option value="">请选择户籍类别</option>
+                            <option value="urban">城镇</option>
+                            <option value="rural">农村</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="income-type">收入类型</label>
+                        <select id="income-type" name="income-type" required>
+                            <option value="">请选择收入类型</option>
+                            <option value="fixed">固定工资</option>
+                            <option value="non-fixed">无固定收入</option>
+                        </select>
+                    </div>
+                    <div class="form-group income-detail fixed-income" style="display: none;">
+                        <label for="company-name">单位名称</label>
+                        <input type="text" id="company-name" name="company-name">
+                        <label for="monthly-income">月收入（元）</label>
+                        <input type="number" id="monthly-income" name="monthly-income" min="0">
+                    </div>
+                    <div class="form-group income-detail non-fixed-income" style="display: none;">
+                        <label for="average-income">近3年平均月收入（元）</label>
+                        <input type="number" id="average-income" name="average-income" min="0">
+                        <p class="hint">若无法提供，将按当地行业平均工资计算</p>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn prev-btn">上一步</button>
+                        <button type="button" class="btn next-btn">下一步</button>
+                    </div>
+                </div>
+
+                <!-- 步骤3: 伤害情况 -->
+                <div class="form-step" id="step-3" style="display: none;">
+                    <h2>伤害情况</h2>
+                    <div class="form-group">
+                        <label for="injury-type">伤害类型</label>
+                        <select id="injury-type" name="injury-type" required>
+                            <option value="">请选择伤害类型</option>
+                            <option value="injury">受伤</option>
+                            <option value="disability">伤残</option>
+                            <option value="death">死亡</option>
+                        </select>
+                    </div>
+                    <div class="form-group injury-detail" id="injury-fields" style="display: none;">
+                        <label for="medical-expenses">医疗费用（元）</label>
+                        <input type="number" id="medical-expenses" name="medical-expenses" min="0">
+                        <label for="hospital-days">住院天数</label>
+                        <input type="number" id="hospital-days" name="hospital-days" min="0">
+                        <label for="work-off-days">误工天数</label>
+                        <input type="number" id="work-off-days" name="work-off-days" min="0">
+                    </div>
+                    <div class="form-group injury-detail" id="disability-fields" style="display: none;">
+                        <label for="disability-level">伤残等级</label>
+                        <select id="disability-level" name="disability-level">
+                            <option value="">请选择伤残等级</option>
+                            <option value="1">一级</option>
+                            <option value="2">二级</option>
+                            <option value="3">三级</option>
+                            <option value="4">四级</option>
+                            <option value="5">五级</option>
+                            <option value="6">六级</option>
+                            <option value="7">七级</option>
+                            <option value="8">八级</option>
+                            <option value="9">九级</option>
+                            <option value="10">十级</option>
+                        </select>
+                    </div>
+                    <div class="form-group injury-detail" id="death-fields" style="display: none;">
+                        <label for="dependents">被扶养人数</label>
+                        <input type="number" id="dependents" name="dependents" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="nursing-care">是否需要护理</label>
+                        <select id="nursing-care" name="nursing-care">
+                            <option value="no">不需要</option>
+                            <option value="yes">需要</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="nursing-fields" style="display: none;">
+                        <label for="nursing-days">护理天数</label>
+                        <input type="number" id="nursing-days" name="nursing-days" min="0">
+                        <label for="nurse-has-income">护理人员是否有收入</label>
+                        <select id="nurse-has-income" name="nurse-has-income">
+                            <option value="yes">有</option>
+                            <option value="no">无</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn prev-btn">上一步</button>
+                        <button type="button" class="btn next-btn">下一步</button>
+                    </div>
+                </div>
+
+                <!-- 步骤4: 交通及住宿费用 -->
+                <div class="form-step" id="step-4" style="display: none;">
+                    <h2>交通及住宿费用</h2>
+                    <div class="form-group">
+                        <label for="transportation-fee">交通票据金额（元）</label>
+                        <input type="number" id="transportation-fee" name="transportation-fee" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="accommodation-fee">住宿票据金额（元）</label>
+                        <input type="number" id="accommodation-fee" name="accommodation-fee" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="accompanies">陪护人员数量</label>
+                        <input type="number" id="accompanies" name="accompanies" min="0">
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn prev-btn">上一步</button>
+                        <button type="button" class="btn next-btn">下一步</button>
+                    </div>
+                </div>
+
+                <!-- 步骤5: 财产损失 -->
+                <div class="form-step" id="step-5" style="display: none;">
+                    <h2>财产损失</h2>
+                    <div class="form-group">
+                        <label for="vehicle-repair">车辆维修费（元）</label>
+                        <input type="number" id="vehicle-repair" name="vehicle-repair" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="property-loss">物品损失（元）</label>
+                        <input type="number" id="property-loss" name="property-loss" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="rescue-cost">施救费用（元）</label>
+                        <input type="number" id="rescue-cost" name="rescue-cost" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="business-vehicle">是否为经营性车辆</label>
+                        <select id="business-vehicle" name="business-vehicle">
+                            <option value="no">否</option>
+                            <option value="yes">是</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="business-loss-fields" style="display: none;">
+                        <label for="business-loss">停运损失（元/天）</label>
+                        <input type="number" id="business-loss" name="business-loss" min="0">
+                        <label for="business-days">停运天数</label>
+                        <input type="number" id="business-days" name="business-days" min="0">
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn prev-btn">上一步</button>
+                        <button type="button" class="btn next-btn">下一步</button>
+                    </div>
+                </div>
+
+                <!-- 步骤6: 其他费用 -->
+                <div class="form-step" id="step-6" style="display: none;">
+                    <h2>其他费用</h2>
+                    <div class="form-group">
+                        <label for="mental-damage">精神损害赔偿（元）</label>
+                        <input type="number" id="mental-damage" name="mental-damage" min="0">
+                        <p class="hint">参考类似案例或法院裁量标准</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="appraisal-fee">鉴定费（元）</label>
+                        <input type="number" id="appraisal-fee" name="appraisal-fee" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="litigation-fee">诉讼费（元）</label>
+                        <input type="number" id="litigation-fee" name="litigation-fee" min="0">
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn prev-btn">上一步</button>
+                        <button type="button" class="btn calculate-btn">计算赔偿</button>
+                    </div>
+                </div>
+
+                <!-- 步骤7: 计算结果 -->
+                <div class="form-step" id="step-7" style="display: none;">
+                    <h2>赔偿计算结果</h2>
+                    <div id="result-container">
+                        <!-- 结果将通过JavaScript动态生成 -->
+                    </div>
+                    <div class="export-section">
+                        <button type="button" class="btn export-btn">导出PDF</button>
+                        <button type="button" class="btn recalculate-btn">重新计算</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <footer>
+            <p>© 2023 交通事故赔偿计算工具 | 本计算结果仅供参考，实际赔偿请以法院判决为准</p>
+        </footer>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>

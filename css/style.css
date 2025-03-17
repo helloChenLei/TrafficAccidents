@@ -1,0 +1,298 @@
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 头部样式 */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+header h1 {
+    color: #1a73e8;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #666;
+}
+
+/* 计算器容器 */
+#calculator {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+/* 步骤导航 */
+.step-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 10px 5px;
+    margin: 0 5px;
+    border-radius: 5px;
+    background-color: #f1f3f4;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.step.active {
+    background-color: #1a73e8;
+    color: #fff;
+}
+
+.step.completed {
+    background-color: #34a853;
+    color: #fff;
+}
+
+/* 表单样式 */
+.form-step {
+    margin-bottom: 20px;
+}
+
+.form-step h2 {
+    margin-bottom: 20px;
+    color: #1a73e8;
+    font-size: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #1a73e8;
+    outline: none;
+}
+
+.hint {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* 错误提示样式 */
+.error {
+    border-color: #ea4335 !important;
+}
+
+.error-message {
+    color: #ea4335;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* 按钮样式 */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.next-btn, .calculate-btn {
+    background-color: #1a73e8;
+    color: white;
+}
+
+.next-btn:hover, .calculate-btn:hover {
+    background-color: #0d65d9;
+}
+
+.prev-btn {
+    background-color: #f1f3f4;
+    color: #333;
+}
+
+.prev-btn:hover {
+    background-color: #e2e2e2;
+}
+
+.export-btn {
+    background-color: #34a853;
+    color: white;
+}
+
+.export-btn:hover {
+    background-color: #2d9249;
+}
+
+.recalculate-btn {
+    background-color: #f1f3f4;
+    color: #333;
+}
+
+.recalculate-btn:hover {
+    background-color: #e2e2e2;
+}
+
+/* 结果展示区域 */
+#result-container {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.result-info {
+    margin-bottom: 15px;
+}
+
+.result-info p {
+    margin-bottom: 5px;
+}
+
+/* 结果表格样式 */
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.result-table th, .result-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.result-table th {
+    background-color: #f1f3f4;
+    font-weight: 600;
+}
+
+.result-table .subtotal-row {
+    background-color: #f1f3f4;
+    font-weight: 500;
+}
+
+.result-table .total-row {
+    background-color: #e8f0fe;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 10px;
+}
+
+.result-item.total {
+    font-weight: bold;
+    border-bottom: none;
+    padding-top: 15px;
+    margin-top: 10px;
+    border-top: 2px solid #ccc;
+}
+
+.result-label {
+    color: #666;
+}
+
+.result-value {
+    font-weight: 500;
+}
+
+.export-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* 页脚样式 */
+footer {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    padding: 20px 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    #calculator {
+        padding: 15px;
+    }
+    
+    .step {
+        font-size: 12px;
+        padding: 8px 3px;
+    }
+    
+    .btn {
+        padding: 10px 15px;
+    }
+    
+    header h1 {
+        font-size: 24px;
+    }
+    
+    .form-step h2 {
+        font-size: 18px;
+    }
+    
+    .result-table .total-row {
+        font-size: 16px;
+    }
+} 
